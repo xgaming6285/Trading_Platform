@@ -55,7 +55,7 @@ Before you begin, ensure you have the following installed:
 
 1️⃣ **Clone the Repository**
 ```bash
-git clone https://github.com/xgaming6285/crypto-trading-simulator.git
+git clone https://github.com/xgaming6285/Trading_Platform.git
 cd crypto-trading-simulator
 ```
 
