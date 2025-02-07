@@ -56,7 +56,7 @@ Before you begin, ensure you have the following installed:
 1️⃣ **Clone the Repository**
 ```bash
 git clone https://github.com/xgaming6285/Trading_Platform.git
-cd crypto-trading-simulator
+cd tarding212_updated
 ```
 
 2️⃣ **Start Backend Server**
