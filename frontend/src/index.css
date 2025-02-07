@@ -1,0 +1,176 @@
+body {
+  margin: 0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #f8f9fa;
+  color: #2c3e50;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+/* Enhanced Material-UI Components */
+.MuiPaper-root {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07) !important;
+  transition: box-shadow 0.3s ease-in-out !important;
+  border-radius: 12px !important;
+}
+
+.MuiPaper-root:hover {
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1) !important;
+}
+
+.MuiTableContainer-root {
+  margin-bottom: 24px;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.MuiCard-root {
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.9) !important;
+  backdrop-filter: blur(10px);
+}
+
+/* Table Styles */
+.MuiTable-root {
+  background-color: white;
+}
+
+.MuiTableHead-root .MuiTableCell-root {
+  font-weight: 600;
+  background-color: #f8f9fa;
+  color: #2c3e50;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.5px;
+}
+
+.MuiTableBody-root .MuiTableRow-root:hover {
+  background-color: rgba(0, 0, 0, 0.02);
+}
+
+.MuiTableCell-root {
+  border-bottom: 1px solid rgba(224, 224, 224, 0.4) !important;
+}
+
+/* Price Changes */
+.price-up {
+  color: #10b981 !important;
+  font-weight: 500;
+}
+
+.price-down {
+  color: #ef4444 !important;
+  font-weight: 500;
+}
+
+/* Button Styles */
+.MuiButton-root {
+  text-transform: none !important;
+  font-family: 'Inter', sans-serif !important;
+  font-weight: 500 !important;
+  border-radius: 8px !important;
+  padding: 6px 16px !important;
+  transition: all 0.2s ease-in-out !important;
+  letter-spacing: 0.25px !important;
+}
+
+.MuiButton-contained {
+  box-shadow: none !important;
+}
+
+.MuiButton-contained:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1) !important;
+  transform: translateY(-1px);
+}
+
+/* Dialog Styles */
+.MuiDialog-paper {
+  border-radius: 16px !important;
+  padding: 8px !important;
+}
+
+.MuiDialogTitle-root {
+  background-color: #f8f9fa;
+  padding: 16px 24px !important;
+}
+
+/* Alert Styles */
+.MuiAlert-root {
+  border-radius: 8px !important;
+  font-weight: 500;
+}
+
+/* Portfolio Section */
+.portfolio-total {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin: 16px 0;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+  .MuiContainer-root {
+    padding: 16px !important;
+  }
+  
+  .MuiTableContainer-root {
+    margin-bottom: 16px;
+  }
+  
+  .MuiCard-root {
+    margin-bottom: 16px;
+  }
+}
+
+/* Animation for price updates */
+@keyframes highlight {
+  0% {
+    background-color: rgba(16, 185, 129, 0.1);
+  }
+  100% {
+    background-color: transparent;
+  }
+}
+
+.price-update {
+  animation: highlight 1s ease-out;
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+/* Update Material-UI Components */
+.MuiTypography-h1,
+.MuiTypography-h2,
+.MuiTypography-h3,
+.MuiTypography-h4,
+.MuiTypography-h5,
+.MuiTypography-h6 {
+  font-family: 'Poppins', sans-serif !important;
+  letter-spacing: -0.25px !important;
+} 

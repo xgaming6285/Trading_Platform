@@ -1,0 +1,44 @@
+# Backend Dependencies (Java 17)
+# These are managed through Maven (pom.xml)
+spring-boot-starter-web=3.4.2
+spring-boot-starter-websocket=3.4.2
+spring-boot-starter-test=3.4.2
+java-websocket=1.5.4
+jackson-databind=latest
+jakarta.websocket-api=latest
+jakarta.annotation-api=latest
+lombok=1.18.30
+mockito-core=5.3.1
+junit-jupiter-api=latest
+
+# Frontend Dependencies (Node.js)
+# These are managed through npm (package.json)
+react=18.2.0
+react-dom=18.2.0
+react-scripts=5.0.1
+@mui/material=6.4.2
+@mui/icons-material=6.4.2
+@emotion/react=11.14.0
+@emotion/styled=11.14.0
+axios=1.7.9
+
+# Development Tools
+node.js>=16.0.0
+npm>=8.0.0
+maven>=3.8.0
+java-jdk>=17
+
+# Optional Development Dependencies
+git
+visual-studio-code
+intellij-idea
+
+# Browser Requirements
+chrome>=88
+firefox>=87
+safari>=14
+edge>=88
+
+# System Requirements
+ram>=4GB
+disk-space>=1GB 
