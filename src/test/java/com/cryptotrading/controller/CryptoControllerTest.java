@@ -24,54 +24,60 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.hamcrest.Matchers.containsString;
 
-@ExtendWith(MockitoExtension.class)
+// Test class for CryptoController using Mockito and Spring MVC test framework
+@ExtendWith(MockitoExtension.class) // Enable Mockito annotations
 class CryptoControllerTest {
+    // Mock dependencies that will be injected into the controller
+    @Mock(lenient = true)
+    private KrakenWebSocketService krakenWebSocketService; // Mock WebSocket service
 
     @Mock(lenient = true)
-    private KrakenWebSocketService krakenWebSocketService;
-
-    @Mock(lenient = true)
-    private RestTemplate restTemplate;
+    private RestTemplate restTemplate; // Mock REST client for external API calls
 
     @InjectMocks
-    private CryptoController cryptoController;
-
-    private MockMvc mockMvc;
-    private ObjectMapper objectMapper;
+    private CryptoController cryptoController; // Controller instance with injected mocks
+    // Test utilities
+    private MockMvc mockMvc; // MVC test framework
+    private ObjectMapper objectMapper; // JSON serialization/deserialization
 
     @BeforeEach
     void setUp() {
+        // Initialize MVC test framework with our controller
         mockMvc = MockMvcBuilders.standaloneSetup(cryptoController).build();
         objectMapper = new ObjectMapper();
         
-        // Default mock responses
+        // Configure default mock behaviors:
+        // - WebSocket connection is active by default
         when(krakenWebSocketService.isConnected()).thenReturn(true);
+        // - Default to not subscribed for any symbol
         when(krakenWebSocketService.isSubscribed(any())).thenReturn(false);
         
-        // Default mock for Kraken API to return valid pairs
+        // Mock Kraken API response for valid trading pairs
         String mockApiResponse = "{\"result\":{\"XXBTZUSD\":{\"wsname\":\"BTC/USD\"}}}";
         when(restTemplate.getForObject(anyString(), eq(String.class))).thenReturn(mockApiResponse);
     }
 
+    // Test case: GET request to fetch crypto data should return latest prices
     @Test
     void getCryptoData_ShouldReturnLatestPrices() throws Exception {
-        // Given
+        // Setup mock price data
         Map<String, Double> mockPrices = new HashMap<>();
         mockPrices.put("BTC/USD", 50000.0);
         mockPrices.put("ETH/USD", 3000.0);
         when(krakenWebSocketService.getLatestPrices()).thenReturn(mockPrices);
 
-        // When & Then
+        // Perform GET request and verify response structure
         mockMvc.perform(get("/api/crypto-data"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.prices").isArray())
-                .andExpect(jsonPath("$.prices[0].symbol").exists())
-                .andExpect(jsonPath("$.prices[0].price").exists())
-                .andExpect(jsonPath("$.prices[0].change24h").exists());
+                .andExpect(jsonPath("$.prices").isArray()) // Prices should be an array
+                .andExpect(jsonPath("$.prices[0].symbol").exists()) // Each item has symbol
+                .andExpect(jsonPath("$.prices[0].price").exists()) // Each item has price
+                .andExpect(jsonPath("$.prices[0].change24h").exists()); // Each item has 24h change
 
-        verify(krakenWebSocketService).getLatestPrices();
+        verify(krakenWebSocketService).getLatestPrices(); // Verify service method was called
     }
 
+    // Test case: Valid subscription request should return success
     @Test
     void subscribeToPair_WithValidSymbol_ShouldSubscribeSuccessfully() throws Exception {
         // Given
@@ -87,9 +93,10 @@ class CryptoControllerTest {
                 .andExpect(jsonPath("$.message").value("Successfully subscribed to " + symbol))
                 .andExpect(jsonPath("$.symbol").value(symbol));
 
-        verify(krakenWebSocketService).subscribeToPairs(symbol);
+        verify(krakenWebSocketService).subscribeToPairs(symbol); // Verify subscription attempt
     }
 
+    // Test case: Empty symbol should return 400 Bad Request
     @Test
     void subscribeToPair_WithEmptySymbol_ShouldReturnBadRequest() throws Exception {
         // Given
@@ -103,9 +110,10 @@ class CryptoControllerTest {
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message").value("Symbol is required"));
 
-        verify(krakenWebSocketService, never()).subscribeToPairs(any());
+        verify(krakenWebSocketService, never()).subscribeToPairs(any()); // Ensure no subscription
     }
 
+    // Test case: Already subscribed symbol should return success without resubscribing
     @Test
     void subscribeToPair_WhenAlreadySubscribed_ShouldReturnSuccess() throws Exception {
         // Given
@@ -123,9 +131,10 @@ class CryptoControllerTest {
                 .andExpect(jsonPath("$.message").value("Already subscribed to " + symbol))
                 .andExpect(jsonPath("$.symbol").value(symbol));
 
-        verify(krakenWebSocketService, never()).subscribeToPairs(any());
+        verify(krakenWebSocketService, never()).subscribeToPairs(any()); // No subscription call
     }
 
+    // Test case: WebSocket disconnect should return 503 Service Unavailable
     @Test
     void subscribeToPair_WhenWebSocketNotConnected_ShouldReturnServiceUnavailable() throws Exception {
         // Given
@@ -145,6 +154,7 @@ class CryptoControllerTest {
         verify(krakenWebSocketService, never()).subscribeToPairs(any());
     }
 
+    // Test case: Invalid symbol format should return 400 Bad Request
     @Test
     void subscribeToPair_WithInvalidSymbolFormat_ShouldReturnBadRequest() throws Exception {
         // Given
@@ -161,6 +171,7 @@ class CryptoControllerTest {
         verify(krakenWebSocketService, never()).subscribeToPairs(any());
     }
 
+    // Test case: Auto-formatting of valid but unformatted symbol
     @Test
     void subscribeToPair_WithUnformattedSymbol_ShouldFormatAndSubscribeSuccessfully() throws Exception {
         // Given
@@ -177,6 +188,6 @@ class CryptoControllerTest {
                 .andExpect(jsonPath("$.message").value("Successfully subscribed to " + formattedSymbol))
                 .andExpect(jsonPath("$.symbol").value(formattedSymbol));
 
-        verify(krakenWebSocketService).subscribeToPairs(formattedSymbol);
+        verify(krakenWebSocketService).subscribeToPairs(formattedSymbol); // Verify formatted symbol used
     }
 } 
